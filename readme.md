@@ -2,8 +2,8 @@
 
 Start creating a virtual environment
 ```bash
-python3.10 -m venv ~/blablacar
-source ~/blablacar/bin/activate 
+python3.10 -m venv ~/carpool-system
+source ~/carpool-system/bin/activate 
 pip install -r requirements.txt
 ```
 
