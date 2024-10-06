@@ -19,22 +19,17 @@ class CityMocker:
 
         return city1, city2
 
-    def _generate_nearby_zip(self, base_zip: str) -> str:
-        return base_zip 
-
-    def _create_insert_query(self, cities: List[City]) -> Tuple[str, Tuple]:
-        """Generate a single insert query for multiple cities."""
-        insert_query = """
-        INSERT INTO public.city (city_name, zip_code, country)
-        VALUES {}
-        ON CONFLICT (city_name, zip_code) DO NOTHING;
-        """
-        values_list = []
-        value_placeholders = []
+    def _create_insert_query(self, cities: List[City]) -> List[Tuple[str, Tuple]]:
+        """Generate separate insert queries for each city."""
+        insert_queries = []
         
         for city in cities:
-            value_placeholders.append("(%s, %s, %s)")
-            values_list.extend((city.city_name, city.zip_code, city.country))
-
-        insert_query = insert_query.format(", ".join(value_placeholders))
-        return insert_query, tuple(values_list)
+            insert_query = """
+            INSERT INTO public.city (city_name, zip_code, country)
+            VALUES (%s, %s, %s)
+            ON CONFLICT (city_name, zip_code) DO NOTHING;
+            """
+            values = (city.city_name, city.zip_code, city.country)
+            insert_queries.append((insert_query, values))
+        
+        return insert_queries

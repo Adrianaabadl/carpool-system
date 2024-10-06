@@ -31,8 +31,10 @@ class PoblateDB:
                 """Insert cities"""
                 city_mocker = CityMocker(country_code=f"{self.countries[random_country]}", country_name=random_country)
                 origin_city, destination_city = city_mocker._generate_cities()
-                insert_query, values = city_mocker._create_insert_query([origin_city,destination_city])
-                db_manager._execute_query(insert_query, values)
+                insert_queries = city_mocker._create_insert_query([origin_city,destination_city])
+                for element in insert_queries:
+                    insert_query, values = element
+                    db_manager._execute_query(insert_query, values)
 
                 """Insert driver"""
                 driver_mocker = DriverMocker(country_code=f"{self.countries[random_country]}", country_name=random_country)
@@ -62,4 +64,4 @@ class PoblateDB:
         finally:
             db_manager._close_connection()
 
-PoblateDB(num_entries=50).run()
+PoblateDB(num_entries=40).run()

@@ -1,9 +1,9 @@
 import psycopg2
 from psycopg2 import extras
-import configparser
+import yaml
 
 class DbManager:
-    def __init__(self, config_file='config.ini') -> None:
+    def __init__(self, config_file='config.yml') -> None:
         """Initialize the DbManager instance and load the configuration."""
         self.config_file = config_file
         self.connection = None
@@ -11,14 +11,15 @@ class DbManager:
         self._load_config()
 
     def _load_config(self):
-        """Load database configuration from the config.ini file."""
-        config = configparser.ConfigParser()
-        config.read(self.config_file)
+        """Load database configuration from the config.yml file."""
+        with open(self.config_file, 'r') as file:
+            config = yaml.safe_load(file)
         
-        self.dbname = config['database']['dbname']
-        self.user = config['database']['user']
-        self.password = config['database']['password']
-        self.host = config['database']['host']
+        db_config = config['database']
+        self.dbname = db_config['dbname']
+        self.user = db_config['user']
+        self.password = db_config['password']
+        self.host = db_config['host']
 
     def _create_connection(self):
         """Create a connection to the PostgreSQL database."""
@@ -44,6 +45,10 @@ class DbManager:
             self.cursor.execute(query, values)
             self.connection.commit()
             print("Query executed successfully.")
+        except psycopg2.IntegrityError as e:
+            print(f"Duplicate key error: {e}")
+            self.connection.rollback()
+            pass
         except Exception as e:
             print(f"Error executing query: {e}")
             self.connection.rollback()
