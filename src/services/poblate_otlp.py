@@ -7,7 +7,7 @@ from use_cases.create_stops import StopMocker
 from use_cases.create_reservation import ReservationMocker
 import random
 
-class PoblateDB:
+class PoblateOltp:
     countries = {
         'France': 'fr_FR',
         'Spain': 'es_ES',
@@ -20,7 +20,7 @@ class PoblateDB:
         'Brazil': 'pt_BR'
     }
 
-    def __init__(self, num_entries=10):
+    def __init__(self, num_entries=1):
         self.num_entries = num_entries
 
     def run(self):

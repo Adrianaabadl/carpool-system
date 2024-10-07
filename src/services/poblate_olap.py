@@ -1,8 +1,7 @@
-import psycopg2
 from google.cloud import bigquery
 from infrastructure.database import DbManager
 
-class PoblateDB:
+class PoblateOlap:
     def __init__(self) -> None:
         self._bq_client = bigquery.Client()
         self.db_manager = DbManager()
@@ -133,6 +132,3 @@ class PoblateDB:
             print(f"Encountered errors while inserting reservations: {errors}")
         else:
             print("Reservations inserted successfully.")
-
-populator = PoblateDB()
-populator.run()
