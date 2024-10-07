@@ -41,3 +41,18 @@ Connect to postgres with your user
 psql -U blablacar -d blablacar_engine
 ```
 
+
+## Enable bigquery Project
+
+Authenticate
+```bash
+gcloud init
+```
+
+Enable billing
+```bash
+gcloud auth application-default login
+```
+
+```bash
+```

@@ -54,6 +54,20 @@ class DbManager:
             self.connection.rollback()
             raise
     
+    def fetch_query(self, query, values=None):
+        """Execute a SELECT query and retrieve the results."""
+        try:
+            if not self.connection:
+                self._create_connection()
+
+            self.cursor.execute(query, values)
+            results = self.cursor.fetchall()
+            print("Query fetched successfully.")
+            return results
+        except Exception as e:
+            print(f"Error fetching query: {e}")
+            raise
+    
     def _close_connection(self):
         """Close the connection and cursor to the database."""
         if self.cursor:
