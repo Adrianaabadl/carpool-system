@@ -4,7 +4,7 @@ from services.poblate_olap import PoblateOlap
 class Process():
     def __init__(self, number_entries) -> None:
         self._poblate_db = PoblateOltp(number_entries)
-        self._populate_dwh = PoblateOltp()
+        self._populate_dwh = PoblateOlap()
 
     def run_services(self):
         self._poblate_db.run()
