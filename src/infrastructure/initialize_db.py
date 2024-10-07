@@ -3,7 +3,7 @@ from pathlib import Path
 import yaml
 
 def initialize_database():
-    ddl_file = Path('/home/adriana/Documents/personal/carpool-system/src/infrastructure/ddl/create_ddls.sql')
+    ddl_file = Path('/home/adriana/Documents/personal/carpool-system/src/infrastructure/ddl/create_oltp_ddls.sql')
 
     with open('config.yml', 'r') as file:
         config = yaml.safe_load(file)

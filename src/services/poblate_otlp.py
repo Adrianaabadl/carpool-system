@@ -94,5 +94,3 @@ class PoblateDB:
             print(f"Error occurred: {e}")
         finally:
             db_manager._close_connection()
-
-PoblateDB(num_entries=40).run()
