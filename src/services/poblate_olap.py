@@ -10,9 +10,9 @@ class PoblateDB:
 
     def run(self):
         try:
-            # self.insert_drivers()
-            # self.insert_passengers()
-            # self.insert_trips()
+            self.insert_drivers()
+            self.insert_passengers()
+            self.insert_trips()
             self.insert_reservations()
 
         except Exception as e:
@@ -110,19 +110,23 @@ class PoblateDB:
 
 
     def insert_reservations(self):
-        query = "SELECT reservation_id, trip_id, passenger_id, reservation_date_time, price_paid FROM public.reservation"
+        query = """SELECT 
+                r.*
+            FROM reservation r 
+            JOIN trip t on r.trip_id = t.trip_id 
+            WHERE t.status = 'completed'        
+            """
         reservations = self.db_manager.fetch_query(query)
         rows_to_insert = [
             {
                 "reservation_id": reservation['reservation_id'],
                 "trip_id": reservation['trip_id'],
                 "passenger_id": reservation['passenger_id'],
-                "reservation_date_time": reservation['reservation_date_time'],
-                "price_paid": reservation['price_paid'],
+                "reservation_date_time": reservation['reservation_date_time'].isoformat() if reservation['reservation_date_time'] is not None else None,
+                "price_paid": float(reservation['price_paid']) if reservation['price_paid'] is not None else None
             }
             for reservation in reservations
         ]
-
         table_id = 'develop-431503.carpool_engine.fact_reservation'
         errors = self._bq_client.insert_rows_json(table_id, rows_to_insert)
         if errors:
