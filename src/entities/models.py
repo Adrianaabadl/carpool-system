@@ -55,14 +55,14 @@ class Trip:
 
 @dataclass
 class Stop:
-    stop_id: Optional[int]
+    stop_id: str
     trip_id: int
     city_id: int
     stop_order: int
     price: float
     distance_km: float
     estimated_arrival_time: datetime
-    previous_stop_id: Optional[int]
+    previous_stop_id: str
 
 
 @dataclass

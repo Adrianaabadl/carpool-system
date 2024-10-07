@@ -62,8 +62,8 @@ class PoblateDB:
 
                 """Insert stops"""
                 if trip.number_of_stops > 0:
+                    previous_stop_id=None
                     for i in range(1, trip.number_of_stops+1):
-                        previous_stop_id=None
                         stops_mocker = StopMocker(country_code=f"{self.countries[random_country]}",
                                                   country_name=random_country,
                                                   trip_id=trip.trip_id,
@@ -72,7 +72,7 @@ class PoblateDB:
                                                   )
                         stop, city = stops_mocker._generate_stop()
                         insert_queries = stops_mocker._create_insert_query(city, stop)
-                        previous_stop_id = stop.city_id
+                        previous_stop_id = stop.stop_id
                         for element in insert_queries:
                             insert_query, values = element
                             db_manager._execute_query(insert_query, values)
