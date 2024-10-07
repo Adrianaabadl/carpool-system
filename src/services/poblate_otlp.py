@@ -77,7 +77,11 @@ class PoblateDB:
                             insert_query, values = element
                             db_manager._execute_query(insert_query, values)
 
-        
+                """Insert reservations"""
+                trip.number_of_seats
+
+                """Create passenguers"""
+
         except Exception as e:
             print(f"Error occurred: {e}")
         finally:

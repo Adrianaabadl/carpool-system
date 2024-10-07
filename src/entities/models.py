@@ -76,7 +76,7 @@ class Reservation:
 
 @dataclass
 class Passenger:
-    passenger_id: int
+    passenger_id: str
     name: str
     email: str
     phone: str
