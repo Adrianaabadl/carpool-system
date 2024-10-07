@@ -3,6 +3,7 @@ from use_cases.create_cities import CityMocker
 from use_cases.create_drivers import DriverMocker 
 from use_cases.create_driver_preferences import DriverPreferencesMocker
 from use_cases.create_trips import TripMocker
+from use_cases.create_stops import StopMocker
 import random
 
 class PoblateDB:
@@ -58,6 +59,24 @@ class PoblateDB:
                 trip = trips_mocker._generate_trip()
                 insert_query, values = trips_mocker._create_insert_query(trip)
                 db_manager._execute_query(insert_query, values)
+
+                """Insert stops"""
+                if trip.number_of_stops > 0:
+                    for i in range(1, trip.number_of_stops+1):
+                        previous_stop_id=None
+                        stops_mocker = StopMocker(country_code=f"{self.countries[random_country]}",
+                                                  country_name=random_country,
+                                                  trip_id=trip.trip_id,
+                                                  stop_order=i,
+                                                  previous_stop_id=previous_stop_id
+                                                  )
+                        stop, city = stops_mocker._generate_stop()
+                        insert_queries = stops_mocker._create_insert_query(city, stop)
+                        previous_stop_id = stop.city_id
+                        for element in insert_queries:
+                            insert_query, values = element
+                            db_manager._execute_query(insert_query, values)
+
         
         except Exception as e:
             print(f"Error occurred: {e}")

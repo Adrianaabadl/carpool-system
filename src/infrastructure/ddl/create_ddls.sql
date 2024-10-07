@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS public.trip (
 CREATE TABLE IF NOT EXISTS public.stop (
     stop_id UUID PRIMARY KEY, -- insert it from the backend
     trip_id UUID REFERENCES trip(trip_id) ON DELETE CASCADE,
-    city_id INT REFERENCES city(city_id) ON DELETE SET NULL,
+    city_zip_code VARCHAR(10) REFERENCES city(zip_code) ON DELETE SET NULL,
     stop_order INT NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     distance_km DECIMAL(10, 2) NOT NULL,

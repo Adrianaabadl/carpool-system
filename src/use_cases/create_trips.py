@@ -17,7 +17,7 @@ class TripMocker:
 
     def _generate_trip(self) -> Trip:
         departure_date_time = self._faker.date_time_this_year()
-        number_of_stops = random.randint(1, 5)
+        number_of_stops = random.randint(0, 5)
         number_of_seats = random.randint(1, 4)
         price_per_seat = round(random.uniform(10, 100), 2)
         women_only = random.choice([True, False])
