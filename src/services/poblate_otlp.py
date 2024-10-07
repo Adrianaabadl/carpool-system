@@ -4,6 +4,7 @@ from use_cases.create_drivers import DriverMocker
 from use_cases.create_driver_preferences import DriverPreferencesMocker
 from use_cases.create_trips import TripMocker
 from use_cases.create_stops import StopMocker
+from use_cases.create_reservation import ReservationMocker
 import random
 
 class PoblateDB:
@@ -77,10 +78,17 @@ class PoblateDB:
                             insert_query, values = element
                             db_manager._execute_query(insert_query, values)
 
-                """Insert reservations"""
-                trip.number_of_seats
-
-                """Create passenguers"""
+                """Insert reservations && Passengers"""
+                for i in range (1,trip.number_of_seats):
+                    reservations_mocker = ReservationMocker(country_code=f"{self.countries[random_country]}",
+                                                            country_name=random_country,
+                                                            trip_id=trip.trip_id
+                                                            )
+                    reservation, passenger = reservations_mocker._generate_reservation()
+                    insert_queries = reservations_mocker._create_insert_query(passenger, reservation)
+                    for element in insert_queries:
+                        insert_query, values = element
+                        db_manager._execute_query(insert_query, values)
 
         except Exception as e:
             print(f"Error occurred: {e}")

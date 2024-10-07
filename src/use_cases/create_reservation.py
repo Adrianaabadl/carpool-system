@@ -2,7 +2,7 @@ from faker import Faker
 import random
 from entities.models import *
 import uuid
-from use_cases.create_passenguer import PassengerMocker
+from use_cases.create_passenger import PassengerMocker
 
 Faker.seed(0)
 

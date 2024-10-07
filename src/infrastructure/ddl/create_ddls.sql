@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS public.passenger (
     passenger_id UUID PRIMARY KEY, -- insert it from the backend
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    phone VARCHAR(15),
+    phone VARCHAR(25),
     rating DECIMAL(3, 2) DEFAULT 0.0
 );
 

@@ -3,8 +3,6 @@ import random
 import uuid
 from entities.models import *
 
-Faker.seed(0)
-
 class PassengerMocker:
     def __init__(self, country_code: str) -> None:
         self._faker = Faker(country_code)
@@ -23,10 +21,3 @@ class PassengerMocker:
             phone=phone,
             rating=rating
         )
-
-    # def _create_insert_query(self):
-    #     insert_query = """
-    #     INSERT INTO public.passenger (passenger_id, name, email, phone, rating)
-    #     VALUES (%s,%s, %s, %s, %s);
-    #     """
-    #     return insert_query
