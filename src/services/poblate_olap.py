@@ -1,3 +1,4 @@
+import os
 from google.cloud import bigquery
 from infrastructure.database import DbManager
 
@@ -6,30 +7,28 @@ class PoblateOlap:
         self._bq_client = bigquery.Client()
         self.db_manager = DbManager()
         self.db_manager._create_connection()
+    
+    def _load_query(self, filename):
+        base_path = os.path.join(os.path.dirname(__file__), '..', 'infrastructure', 'transformations')
+        file_path = os.path.join(base_path, filename)
+        with open(file_path, 'r') as file:
+            return file.read()
+
 
     def run(self):
         try:
-            self.insert_drivers()
-            self.insert_passengers()
-            self.insert_trips()
-            self.insert_reservations()
+            self._insert_drivers()
+            self._insert_passengers()
+            self._insert_trips()
+            self._insert_reservations()
 
         except Exception as e:
             print(f"Error occurred: {e}")
         finally:
             self.db_manager._close_connection()
 
-    def insert_drivers(self):
-        query = """SELECT 
-                d.driver_id, 
-                d.name, 
-                d.is_id_verified, 
-                d.rating, 
-                dp.total_rides_published, 
-                dp.member_since 
-            FROM public.driver d 
-            LEFT JOIN public.driver_preferences dp ON dp.driver_id = d.driver_id
-        """
+    def _insert_drivers(self):
+        query = self._load_query('dim_driver.sql')
         drivers = self.db_manager.fetch_query(query)
         rows_to_insert = [
             {
@@ -50,8 +49,8 @@ class PoblateOlap:
             print("Drivers inserted successfully.")
 
 
-    def insert_passengers(self):
-        query = "SELECT passenger_id, name, rating FROM public.passenger"
+    def _insert_passengers(self):
+        query = self._load_query('dim_passenger.sql')
         passengers = self.db_manager.fetch_query(query)
         rows_to_insert = [
             {
@@ -68,22 +67,8 @@ class PoblateOlap:
         else:
             print("Passengers inserted successfully.")
 
-    def insert_trips(self):
-        query = """SELECT 
-                t.trip_id,
-                t.driver_id,
-                dep.city_name AS departure_city,
-                dest.city_name AS destination_city,
-                dest.country AS destination_country,
-                t.departure_date_time,
-                t.number_of_stops,
-                t.number_of_seats,
-                t.total_distance_km 
-            FROM trip t
-            JOIN city dep ON t.departure_city_id = dep.zip_code
-            JOIN city dest ON t.destination_city_id = dest.zip_code
-            WHERE t.status = 'completed'        
-        """
+    def _insert_trips(self):
+        query = self._load_query('dim_trip.sql')
         trips = self.db_manager.fetch_query(query)
         rows_to_insert = [
             {
@@ -108,13 +93,8 @@ class PoblateOlap:
             print("Trips inserted successfully.")
 
 
-    def insert_reservations(self):
-        query = """SELECT 
-                r.*
-            FROM reservation r 
-            JOIN trip t on r.trip_id = t.trip_id 
-            WHERE t.status = 'completed'        
-            """
+    def _insert_reservations(self):
+        query = self._load_query('fact_reservation.sql')
         reservations = self.db_manager.fetch_query(query)
         rows_to_insert = [
             {

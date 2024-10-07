@@ -56,3 +56,8 @@ gcloud auth application-default login
 
 ```bash
 ```
+
+
+## Some considerations
+
+Your working directory or python path shoud be "${workspaceFolder}/src"
