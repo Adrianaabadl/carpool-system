@@ -12,5 +12,5 @@ class Process():
         
 
 if __name__ == "__main__":
-    p = Process(number_entries=5)
+    p = Process(number_entries=10)
     p.run_services()

@@ -1,4 +1,5 @@
 SELECT 
+    distinct
     t.trip_id,
     t.driver_id,
     dep.city_name AS departure_city,

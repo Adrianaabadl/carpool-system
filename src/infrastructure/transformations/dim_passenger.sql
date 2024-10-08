@@ -1,5 +1,6 @@
 SELECT 
+    distinct
     passenger_id,
     name,
     rating 
-FROM public.passenge
+FROM public.passenger

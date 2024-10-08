@@ -10,11 +10,12 @@ class DriverMocker:
     def __init__(self, country_code: str, country_name) -> None:
         self._faker = Faker(country_code)
         self._country = country_name
+        self._random_suffix = ''.join(random.choices('0123456789abcdefghijklmnopqrstuvwxyz', k=5))
 
     def _generate_driver(self) -> Driver:
         driver_id = str(uuid.uuid4())
         name = self._faker.first_name()
-        email = self._faker.email()
+        email = f"{self._faker.user_name()}{self._random_suffix}@{self._faker.free_email_domain()}"
         date_of_birth = self._faker.date_of_birth(minimum_age=18, maximum_age=75)
         phone = self._faker.phone_number()
         rating = round(random.uniform(0.00, 5.00), 2)
