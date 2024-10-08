@@ -12,15 +12,18 @@ LOG = logging.getLogger(__name__)
 
 class PoblateOltp:
     countries = {
-        'France': 'fr_FR',
-        'Spain': 'es_ES',
-        'Germany': 'de_DE',
-        'United Kingdom': 'en_GB',
-        'Portugal': 'pt_PT',
-        'Netherlands': 'nl_NL',
-        'Italy': 'it_IT',
-        'Mexico': 'es_MX',
-        'Brazil': 'pt_BR'
+    'France': 'fr_FR',
+    'Spain': 'es_ES',
+    'Germany': 'de_DE',
+    'United Kingdom': 'en_GB',
+    'Portugal': 'pt_PT',
+    'Netherlands': 'nl_NL',
+    'Italy': 'it_IT',
+    'Belgium': 'fr_BE',
+    'Mexico': 'es_MX',
+    'Brazil': 'pt_BR',
+    'Turkey': 'tr_TR',
+    'Poland': 'pl_PL', 
     }
 
     def __init__(self, num_entries=1):
