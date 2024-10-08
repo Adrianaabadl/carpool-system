@@ -1,5 +1,0 @@
-database:
-  dbname: blablacar_engine
-  user: blablacar
-  password: adminblablacar
-  host: localhost
